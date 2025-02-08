@@ -1,0 +1,49 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container{
+  margin: 1rem 1rem 4rem 1rem;
+  
+}
+.grid{
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.section-title{
+  margin-bottom: 1rem;
+}
+.input-form{
+  
+}
+.result-table{
+  border-collapse: collapse;
+}
+
+li{
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-block: .5rem;
+}
+
+.result{
+  grid-template-columns: repeat(5,1fr);
+  border-bottom: 1px solid green; 
+}
+.cutting{
+  grid-template-columns: 1fr 1fr 2fr 2fr 1fr;
+  border-bottom: 1px solid green;
+}
+
+button{
+  padding: .5rem;
+  border-radius: .5rem;
+  border: none;
+  background-color: dodgerblue;
+  color: white;
+  margin-top: 1rem;
+}

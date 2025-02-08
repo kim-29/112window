@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sliding window</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <section class="input container">
+    <h1 class="section-title">112mm 슬라이딩 윈도우 견적 계산기</h1>
+    <form action="" class="input-form grid">
+     <label for="type">타입(type): 
+        <select name="type" id="type">
+          <option value="2">2짝문</option>
+          <option value="3">3짝문</option>
+          <option value="4">4짝문</option>
+        </select>
+      </label>
+      <label for="width">너비(width): <input id="width" type="number" placeholder="mm">mm</label>
+      <label for="height">높이(height): <input id="height" type="number" placeholder="mm">mm</label>
+      <label for="color">색상(color): 
+        <select name="color" id="color">
+          <option value="st">헨켈(st)</option>
+          <option value="ew">백색(ew)</option>
+          <option value="black">검정색(black)</option>
+          <option value="ms">메탈실버(ms)</option>
+          <option value="other">다른색상(코팅)</option>
+        </select>
+      </label>
+      <label for="frame">창틀(frame):
+        <select name="frame" id="frame">
+          <option value="ns112sl104">ns112sl104</option>
+        </select>
+      </label>
+      <label for="window-top">창문(top):
+        <select name="window-top" id="window-top">
+          <option value="ns112sl401">ns112sl401(유리 8mm이하)</option>
+          <option value="ns112sl401">ns112sl403(유리 16mm)</option>
+          <option value="ns112sl401">ns112sl404(유리 20mm)</option>
+        </select>
+      </label>
+      <label for="winidow-bottom">창문(bottom):
+        <select name="window-bottom" id="window-bottom">
+          <option value="ns112sl602">ns112sl602(유리 16mm)</option>
+          <option value="ns112sl603">ns112sl603(유리 16mm)</option>
+          <option value="ns112sl604">ns112sl604(유리 8mm이하)</option>
+          <option value="ns112sl605">ns112sl605(유리 20mm)</option>
+          <option value="ns112sl607">ns112sl607(유리 20mm)</option>
+        </select>
+      </label>
+      <label for="window-outside">창문(outside): 
+        <select name="window-outside" id="window-outside">
+          <option value="ns112sl701">ns112sl701(유리 8mm이하)</option>
+          <option value="ns112sl702">ns112sl702(유리 16mm)</option>
+          <option value="ns112sl704">ns112sl704(유리 8mm이하)</option>
+          <option value="ns112sl707">ns112sl707(유리 20mm)</option>
+        </select>
+      </label>
+      <label for="window-inside">창문(inside): 
+        <select name="window-inside" id="window-inside">
+          <option value="ns112sl801">ns112sl801(유리 8mm이하)</option>
+          <option value="ns112sl802">ns112sl802(유리 16mm)</option>
+          <option value="ns112sl804">ns112sl804(유리 8mm이하)</option>
+          <option value="ns112sl805">ns112sl805(유리 16mm)</option>
+          <option value="ns112sl807">ns112sl807(유리 20mm)</option>
+        </select>
+      </label>
+      <label for="screen-frame">방충망 틀(screen frame): 
+        <select name="screen-frame" id="screen-frame">
+         <option value="nothing">미설치</option>
+          <option value="sc-8">sc-8</option>
+          <option value="sc-19">sc-19 only</option>
+          <option value="sc-20">sc-20 사용</option>
+        </select>
+      </label>
+      <label for="screen">방충망(screen) 설치: <input type="checkbox" id="screen"></label>
+    </form>  
+    <button class="input-button">견적산출</button>
+  </section>
+  <section class="result-container container">
+    <h1 class="section-title">예상 견적가</h1>
+    <ul class="result-list">
+      <li class="title result">
+        <span>구분</span><span>형번호</span><span>무게</span><span>길이</span><span>금액</span>
+      </li>
+      <li class="frame result">
+        <span>창틀</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="window-top result">
+        <span>창문(top)</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="window-bottom result">
+        <span>창문(bottom)</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="window-outside result">
+        <span>창문(outside)</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="window-inside result">
+        <span>창문(inside)</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="window-fittings result">
+        <span>창문부속</span><span>701-A</span><span></span><span></span><span></span>
+      </li>
+      <li class="screen-frame result">
+        <span>방충망 틀</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="screen result">
+        <span>방충망</span><span>알미늄 망</span><span>-</span><span></span><span></span>
+      </li>
+      <li class="sub-total result">
+        <span>자재견적가</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="production-cost result">
+        <span>제작비</span><span></span><span></span><span></span><span></span>
+      </li>
+      <li class="total result">
+        <span>제작시 견적가</span><span></span><span></span><span></span><span></span>
+      </li>
+    </ul>
+
+  </section>
+  <section class="cutting-order container">
+    <h1 class="section-title">절단 상세내역</h1>
+    <ul class="cutting-list">
+      <li class="title cutting">
+        <span>구분</span><span>형번호</span><span>창틀(너비)/side 창문</span><span>창틀(높이)/center 창문</span><span>확인</span>
+      </li>
+      <li class="frame cutting">
+        <span>창틀</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="window-top cutting">
+        <span>창문(top)</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="window-bottom cutting">
+        <span>창문(bottom)</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="window-outside cutting">
+        <span>창문(outside)</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="window-inside cutting">
+        <span>창문(inside)</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="screen-frame cutting">
+        <span>방충망 틀(sc8)</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="screen-frame cutting">
+        <span>방충망 틀(sc19)</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="screen-frame cutting">
+        <span>방충망 틀(sc20)</span><span></span><span></span><span></span><input type="checkbox">
+      </li>
+    </ul>
+    <button>절단의뢰</button>
+    <button>제작의뢰</button>
+  </section>
+</body>
+</html>
