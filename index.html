@@ -12,20 +12,20 @@
     <form action="" class="input-form grid">
      <label for="type">타입(type): 
         <select name="type" id="type">
-          <option value="2">2짝문</option>
-          <option value="3">3짝문</option>
-          <option value="4">4짝문</option>
+          <option value=2>2짝문</option>
+          <option value=3>3짝문</option>
+          <option value=4>4짝문</option>
         </select>
       </label>
       <label for="width">너비(width): <input id="width" type="number" placeholder="mm">mm</label>
       <label for="height">높이(height): <input id="height" type="number" placeholder="mm">mm</label>
       <label for="color">색상(color): 
         <select name="color" id="color">
-          <option value="st">헨켈(st)</option>
-          <option value="ew">백색(ew)</option>
-          <option value="black">검정색(black)</option>
-          <option value="ms">메탈실버(ms)</option>
-          <option value="other">다른색상(코팅)</option>
+          <option value="st">헨켈(단가:10,500원)</option>
+          <option value="ms">메탈실버(단가:11,000원)</option>
+          <option value="ew">백색(단가:11,000원)</option>
+          <option value="black">검정색(단가:11,500원)</option>
+          <option value="other">다른색상(단가:12,000원)</option>
         </select>
       </label>
       <label for="frame">창틀(frame):
@@ -68,7 +68,7 @@
       </label>
       <label for="screen-frame">방충망 틀(screen frame): 
         <select name="screen-frame" id="screen-frame">
-         <option value="nothing">미설치</option>
+         <option value="미설치">미설치</option>
           <option value="sc-8">sc-8</option>
           <option value="sc-19">sc-19 only</option>
           <option value="sc-20">sc-20 사용</option>
@@ -76,13 +76,13 @@
       </label>
       <label for="screen">방충망(screen) 설치: <input type="checkbox" id="screen"></label>
     </form>  
-    <button class="input-button">견적산출</button>
+    <button class="button112">견적산출</button>
   </section>
   <section class="result-container container">
     <h1 class="section-title">예상 견적가</h1>
     <ul class="result-list">
       <li class="title result">
-        <span>구분</span><span>형번호</span><span>무게</span><span>길이</span><span>금액</span>
+        <span>구분</span><span>형번호</span><span>무게(kg/m)</span><span>길이(mm)</span><span>금액</span>
       </li>
       <li class="frame result">
         <span>창틀</span><span></span><span></span><span></span><span></span>
@@ -99,8 +99,8 @@
       <li class="window-inside result">
         <span>창문(inside)</span><span></span><span></span><span></span><span></span>
       </li>
-      <li class="window-fittings result">
-        <span>창문부속</span><span>701-A</span><span></span><span></span><span></span>
+      <li class="window-part result">
+        <span>창문부속</span><span>ns112sl701-A</span><span></span><span></span><span></span>
       </li>
       <li class="screen-frame result">
         <span>방충망 틀</span><span></span><span></span><span></span><span></span>
@@ -124,7 +124,7 @@
     <h1 class="section-title">절단 상세내역</h1>
     <ul class="cutting-list">
       <li class="title cutting">
-        <span>구분</span><span>형번호</span><span>창틀(너비)/side 창문</span><span>창틀(높이)/center 창문</span><span>확인</span>
+        <span>구분</span><span>형번호</span><span>창틀(너비)<br>/side창문</span><span>창틀(높이)<br>/center창문</span><span>확인</span>
       </li>
       <li class="frame cutting">
         <span>창틀</span><span></span><span></span><span></span><input type="checkbox">
@@ -141,18 +141,22 @@
       <li class="window-inside cutting">
         <span>창문(inside)</span><span></span><span></span><span></span><input type="checkbox">
       </li>
-      <li class="screen-frame cutting">
-        <span>방충망 틀(sc8)</span><span></span><span></span><span></span><input type="checkbox">
+      <li class="window-part cutting">
+        <span>창문부속</span><span>ns112sl701-A</span><span></span><span></span><input type="checkbox">
       </li>
-      <li class="screen-frame cutting">
-        <span>방충망 틀(sc19)</span><span></span><span></span><span></span><input type="checkbox">
+      <li class="sc8 cutting">
+        <span>방충망 틀</span><span>sc8</span><span></span><span></span><input type="checkbox">
       </li>
-      <li class="screen-frame cutting">
-        <span>방충망 틀(sc20)</span><span></span><span></span><span></span><input type="checkbox">
+      <li class="sc19 cutting">
+        <span>방충망 틀</span><span>sc19</span><span></span><span></span><input type="checkbox">
+      </li>
+      <li class="sc20 cutting">
+        <span>방충망 틀</span><span>sc20</span><span></span><span></span><input type="checkbox">
       </li>
     </ul>
     <button>절단의뢰</button>
     <button>제작의뢰</button>
   </section>
+  <script src="js/script.js"></script>
 </body>
 </html>
