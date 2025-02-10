@@ -137,63 +137,84 @@ button.addEventListener('click',()=>{
       screen_width=width/4+11
       break;
   }
-  console.log(side_width,width)
-  let elements,sum=0
+  
+  let elements,sum=0,weight=0,weight_sum=0
   
   /*=========예상 견적가=====================*/
+  
+  /*예상견적가 초기화*/
+    const results = document.querySelectorAll('.result');
+    results.forEach(result =>{
+      if(result.className!="title result"){
+        elements = result.querySelectorAll('span')
+        elements[2].innerHTML=elements[3].innerHTML=elements[4].innerHTML=""  
+      }
+    })
   
   /*frame 예상견적가*/
   elements = frame_out.querySelectorAll('span')
   elements[1].innerHTML = frame.value;
   elements[2].innerHTML = book.diesbook[frame.value]
   elements[3].innerHTML = (frame_width+frame_height)*2
-  price = Math.ceil(Number(elements[2].innerHTML)*Number(elements[3].innerHTML)*color_price/1000)
+  weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+  price = Math.ceil(weight*color_price)
   elements[4].innerHTML = price.toLocaleString("en-US")
   sum=sum+price
+  weight_sum = weight_sum+weight
   
   /*창문(top) 예상견적가*/
   elements = top_out.querySelectorAll('span')
   elements[1].innerHTML = top.value;
   elements[2].innerHTML = book.diesbook[top.value]
   elements[3].innerHTML = window_width
-  price = Math.ceil(Number(elements[2].innerHTML)*Number(elements[3].innerHTML)*color_price/1000)
+  weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+  price = Math.ceil(weight*color_price)
   elements[4].innerHTML = price.toLocaleString("en-US")
   sum=sum+price
+  weight_sum = weight_sum+weight
   
   /*창문(bottom) 예상견적가*/
   elements = bottom_out.querySelectorAll('span')
   elements[1].innerHTML = bottom.value;
   elements[2].innerHTML = book.diesbook[bottom.value]
   elements[3].innerHTML = window_width
-  price = Math.ceil(Number(elements[2].innerHTML)*Number(elements[3].innerHTML)*color_price/1000)
+  weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+  price = Math.ceil(weight*color_price)
   elements[4].innerHTML = price.toLocaleString("en-US")
   sum=sum+price
+  weight_sum = weight_sum+weight
   
   /*창문(outside) 예상견적가*/
   elements = outside_out.querySelectorAll('span')
   elements[1].innerHTML = outside.value;
   elements[2].innerHTML = book.diesbook[outside.value]
   elements[3].innerHTML = window_height*outside_bar_count
-  price = Math.ceil(Number(elements[2].innerHTML)*Number(elements[3].innerHTML)*color_price/1000)
+  weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+  price = Math.ceil(weight*color_price)
   elements[4].innerHTML = price.toLocaleString("en-US")
   sum=sum+price
+  weight_sum = weight_sum+weight
   
   /*창문(inside) 예상견적가*/
   elements = inside_out.querySelectorAll('span')
   elements[1].innerHTML = inside.value;
   elements[2].innerHTML = book.diesbook[inside.value]
   elements[3].innerHTML = window_height*inside_bar_count
-  price = Math.ceil(Number(elements[2].innerHTML)*Number(elements[3].innerHTML)*color_price/1000)
+  weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+  price = Math.ceil(weight*color_price)
   elements[4].innerHTML = price.toLocaleString("en-US")
   sum=sum+price
+  weight_sum = weight_sum+weight
   
   /*창문부속 예상견적가*/
   elements = window_part_out.querySelectorAll('span')
   elements[2].innerHTML = book.diesbook[elements[1].textContent]
   elements[3].innerHTML = window_height*window_part_count
-  price = Math.ceil(Number(elements[2].innerHTML)*Number(elements[3].innerHTML)*color_price/1000)
+  weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+  price = Math.ceil(weight*color_price)
   elements[4].innerHTML = price.toLocaleString("en-US")
   sum=sum+price
+  weight_sum = weight_sum+weight
   
   /*방충망 틀 예상견적가*/
   elements = screen_frame_out.querySelectorAll('span')
@@ -201,9 +222,11 @@ button.addEventListener('click',()=>{
   if(screen_frame.value !="미설치"){
     elements[2].innerHTML = book.diesbook[screen_frame.value]
     elements[3].innerHTML = (screen_width+screen_height)*2*screen_frame_count
-    price = Math.ceil(Number(elements[2].innerHTML)*Number(elements[3].innerHTML)*color_price/1000)
+    weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+    price = Math.ceil(weight*color_price)
     elements[4].innerHTML = price.toLocaleString("en-US")
     sum=sum+price
+    weight_sum = weight_sum+weight
   }
   
   /*방충망 예상견적가*/
@@ -220,7 +243,14 @@ button.addEventListener('click',()=>{
   
   /*제작비 예상견적가*/
   elements = production_cost.querySelectorAll('span')
-  price = Math.ceil(50000)/*임시값으로 수정 필요*/
+  switch(type){
+    case 2:price=Math.ceil(14500+weight_sum*25000) /*부속비용 + 인건비(무게*25000원)*/
+      break;
+    case 3:price=Math.ceil(20600+weight_sum*25000)
+      break;
+    case 4:price=Math.ceil(24200+weight_sum*25000)
+      break;
+  }                        /*임시값으로 수정 필요*/
   elements[4].innerHTML =price.toLocaleString("en-US")
   sum=sum+price
   
@@ -230,6 +260,15 @@ button.addEventListener('click',()=>{
 
   
   /*=========절단 상세내역=====================*/
+  const cuttings = document.querySelectorAll('.cutting');
+    cuttings.forEach(cutting =>{
+      if(cutting.className!="title cutting"){
+        elements = cutting.querySelectorAll('span')
+        elements[2].innerHTML=elements[3].innerHTML=""  
+      }
+    })
+  
+  
   /*frame 절단내역*/
   elements = frame_cut.querySelectorAll('span')
   elements[1].innerHTML = frame.value
@@ -240,13 +279,13 @@ button.addEventListener('click',()=>{
   elements = top_cut.querySelectorAll('span')
   elements[1].innerHTML = top.value
   elements[2].innerHTML = side_width + "mm X "+(type==3?2:type)
-  elements[3].innerHTML = type==3?center_width + "mm X "+2:""
+  elements[3].innerHTML = type==3?center_width + "mm X "+1:""
   
   /*창문(bottom) 절단내역*/
   elements = bottom_cut.querySelectorAll('span')
   elements[1].innerHTML = bottom.value
   elements[2].innerHTML = side_width + "mm X " +(type==3?2:type)
-  elements[3].innerHTML = type==3?center_width + "mm X "+2:""
+  elements[3].innerHTML = type==3?center_width + "mm X "+1:""
   
   /*창문(outside) 절단내역*/
   elements = outside_cut.querySelectorAll('span')
@@ -285,9 +324,8 @@ button.addEventListener('click',()=>{
     case "sc-20":
       elements = sc19_cut.querySelectorAll('span')
       elements[2].innerHTML = screen_width + "mm X " + (type==2?2:4)
-      elements[3].innerHTML = screen_height + "mm X " + (type==2?1:2)
       elements = sc20_cut.querySelectorAll('span')
-      elements[3].innerHTML = screen_height + "mm X " + (type==2?1:2)
+      elements[3].innerHTML = screen_height + "mm X " + (type==2?2:4)
       break;
     case "미설치":
       break;
