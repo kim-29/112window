@@ -260,6 +260,8 @@ button.addEventListener('click',()=>{
 
   
   /*=========절단 상세내역=====================*/
+  
+  /*초기화*/
   const cuttings = document.querySelectorAll('.cutting');
     cuttings.forEach(cutting =>{
       if(cutting.className!="title cutting"){
@@ -302,14 +304,6 @@ button.addEventListener('click',()=>{
   elements[2].innerHTML = type==4?window_height + "mm X " + 1:""
   
   /*방충망틀 절단내역*/
-  /*초기화*/
-  elements = sc8_cut.querySelectorAll('span')
-  elements[2].innerHTML=elements[3].innerHTML=null
-  elements = sc19_cut.querySelectorAll('span')
-  elements[2].innerHTML=elements[3].innerHTML=null
-  elements = sc20_cut.querySelectorAll('span')
-  elements[2].innerHTML=elements[3].innerHTML=null
-  
   switch(screen_frame.value){
     case "sc-8":
       elements = sc8_cut.querySelectorAll('span')
