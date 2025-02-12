@@ -4,7 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>sliding window</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .container{
+      margin: 1rem 1rem 4rem 1rem;
+    }
+    .grid{
+      display: grid;
+      grid-gap: 1rem;
+    }
+    .section-title{
+      margin-bottom: 1rem;
+    }
+    li{
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding-block: .5rem;
+    }
+    .order-list li{
+      place-items:start;
+      text-align: left;
+      display: block;
+    }
+    .result{
+      grid-template-columns: repeat(5,1fr);
+      border-bottom: 1px solid green; 
+    }
+    .cutting{
+      grid-template-columns: 1fr 1fr 2fr 2fr 1fr;
+      border-bottom: 1px solid green;
+    }
+    button,.download{
+      padding: .5rem;
+      border-radius: .5rem;
+      border: none;
+      background-color: dodgerblue;
+      color: white;
+      margin-top: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    input[type="checkbox"]{
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <section class="input container">
@@ -21,49 +71,24 @@
       <label for="height">높이(height): <input id="height" type="number" placeholder="mm">mm</label>
       <label for="color">색상(color): 
         <select name="color" id="color">
-          <option value="st">헨켈(단가:10,500원)</option>
-          <option value="ms">메탈실버(단가:11,000원)</option>
-          <option value="ew">백색(단가:11,000원)</option>
-          <option value="black">검정색(단가:11,500원)</option>
-          <option value="other">다른색상(단가:12,000원)</option>
+          <option value="헨켈">헨켈(단가:10,500원)</option>
+          <option value="메탈실버">메탈실버(단가:11,000원)</option>
+          <option value="백색">백색(단가:11,000원)</option>
+          <option value="검정색">검정색(단가:11,500원)</option>
+          <option value="코팅색상">다른색상(단가:12,000원)</option>
         </select>
       </label>
-      <label for="frame">창틀(frame):
-        <select name="frame" id="frame">
-          <option value="ns112sl104">ns112sl104</option>
+      <label for="tickness">유리두께(tickness):
+        <select name="tickness" id="tickness">
+          <option value="8mm">8mm</option>
+          <option value="16mm">16mm</option>
+          <option value="20mm">20mm</option>
         </select>
       </label>
-      <label for="window-top">창문(top):
-        <select name="window-top" id="window-top">
-          <option value="ns112sl401">ns112sl401(유리 8mm이하)</option>
-          <option value="ns112sl401">ns112sl403(유리 16mm)</option>
-          <option value="ns112sl401">ns112sl404(유리 20mm)</option>
-        </select>
-      </label>
-      <label for="winidow-bottom">창문(bottom):
-        <select name="window-bottom" id="window-bottom">
-          <option value="ns112sl602">ns112sl602(유리 16mm)</option>
-          <option value="ns112sl603">ns112sl603(유리 16mm)</option>
-          <option value="ns112sl604">ns112sl604(유리 8mm이하)</option>
-          <option value="ns112sl605">ns112sl605(유리 20mm)</option>
-          <option value="ns112sl607">ns112sl607(유리 20mm)</option>
-        </select>
-      </label>
-      <label for="window-outside">창문(outside): 
-        <select name="window-outside" id="window-outside">
-          <option value="ns112sl701">ns112sl701(유리 8mm이하)</option>
-          <option value="ns112sl702">ns112sl702(유리 16mm)</option>
-          <option value="ns112sl704">ns112sl704(유리 8mm이하)</option>
-          <option value="ns112sl707">ns112sl707(유리 20mm)</option>
-        </select>
-      </label>
-      <label for="window-inside">창문(inside): 
-        <select name="window-inside" id="window-inside">
-          <option value="ns112sl801">ns112sl801(유리 8mm이하)</option>
-          <option value="ns112sl802">ns112sl802(유리 16mm)</option>
-          <option value="ns112sl804">ns112sl804(유리 8mm이하)</option>
-          <option value="ns112sl805">ns112sl805(유리 16mm)</option>
-          <option value="ns112sl807">ns112sl807(유리 20mm)</option>
+      <label for="tickness-16">*16mm 선택사항:
+        <select name="tickness-16" id="tickness-16">
+          <option value="ns112sl602">ns112sl602(크기:128mm)</option>
+          <option value="ns112sl603">ns112sl603(크기:100mm)</option>
         </select>
       </label>
       <label for="screen-frame">방충망 틀(screen frame): 
@@ -75,9 +100,11 @@
         </select>
       </label>
       <label for="screen">방충망(screen) 설치: <input type="checkbox" id="screen"></label>
+      <label for="rain-hole">빗물 홈: <input type="checkbox" id="rain-hole"></label>
     </form>  
     <button class="button112">견적산출</button>
   </section>
+  
   <section class="result-container container">
     <h1 class="section-title">예상 견적가</h1>
     <ul class="result-list">
@@ -85,7 +112,7 @@
         <span>구분</span><span>형번호</span><span>무게(kg/m)</span><span>길이(mm)</span><span>금액</span>
       </li>
       <li class="frame result">
-        <span>창틀</span><span></span><span></span><span></span><span></span>
+        <span>창틀</span><span>ns112sl104</span><span></span><span></span><span></span>
       </li>
       <li class="window-top result">
         <span>창문(top)</span><span></span><span></span><span></span><span></span>
@@ -120,14 +147,14 @@
     </ul>
 
   </section>
-  <section class="cutting-order container">
+  <section class="cutting-container container">
     <h1 class="section-title">절단 상세내역</h1>
     <ul class="cutting-list">
       <li class="title cutting">
         <span>구분</span><span>형번호</span><span>창틀(너비)<br>/side창문</span><span>창틀(높이)<br>/center창문</span><span>확인</span>
       </li>
       <li class="frame cutting">
-        <span>창틀</span><span></span><span></span><span></span><input type="checkbox">
+        <span>창틀</span><span>ns112sl104</span><span></span><span></span><input type="checkbox">
       </li>
       <li class="window-top cutting">
         <span>창문(top)</span><span></span><span></span><span></span><input type="checkbox">
@@ -154,9 +181,11 @@
         <span>방충망 틀</span><span>sc20</span><span></span><span></span><input type="checkbox">
       </li>
     </ul>
-    <button>절단의뢰</button>
-    <button>제작의뢰</button>
+    
   </section>
+  <footer class="footer container">
+    <a href="" class="download">견적서 다운로드</a>
+  </footer>
   <script src="js/script.js"></script>
 </body>
 </html>

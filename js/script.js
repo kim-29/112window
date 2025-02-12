@@ -37,15 +37,15 @@ const book = {
     "ns112sl701-A":0.297,
     "sc-8":0.267,
     "sc-19":0.375,
-    "sc-20":0.391
+    "sc-20":0.391,
   },
   "colorbook":{
     /*색상바 단가*/
-    "st":10500,
-    "ms":11000,
-    "ew":11000,
-    "black":11500,
-    "other":12000
+    "헨켈":10500,
+    "메탈실버":11000,
+    "백색":11000,
+    "검정색":11500,
+    "코팅색상":12000,
   },
   "tolerancebook":{
     /*슬라이딩 윈도우 공차 : [2짝문 너비공차, 3짝문 너비공차, 4짝문 너비공차, 높이공차]*/
@@ -55,24 +55,16 @@ const book = {
     "screen88":[2,20,5,55],
     /*프로젝트 윈도우 공차 : [너비공차,높이공차]*/
     "project45":[36,36],
-    "project-parts":[115,145]
-  }
+    "project-parts":[115,145],
+  },
+  "glassbook":{
+    "8mm":["ns112sl401","ns112sl604","ns112sl701","ns112sl801"],
+    "16mm":['ns112sl403','ns112sl602','ns112sl702','ns112sl802'],
+    "20mm":['ns112sl404','ns112sl607','ns112sl707','ns112sl807'],
+  },
 }
 
-const button = document.querySelector('.button112')
-button.addEventListener('click',()=>{
-  /*변수 설정*/
-  const type = Number(document.querySelector('#type').value)
-  const width = Number(document.querySelector('#width').value)
-  const height = Number(document.querySelector('#height').value)
-  const color = document.querySelector('#color').value
-  const frame = document.querySelector('#frame')
-  const top = document.querySelector('#window-top')
-  const bottom = document.querySelector('#window-bottom')
-  const outside = document.querySelector('#window-outside')
-  const inside = document.querySelector("#window-inside")
-  const screen_frame = document.querySelector('#screen-frame')
-  const screen = document.querySelector('#screen')
+/*=========변수설정=====================*/
   
   const frame_out = document.querySelector('.frame.result')
   const top_out = document.querySelector('.window-top.result')
@@ -95,6 +87,29 @@ button.addEventListener('click',()=>{
   const sc8_cut = document.querySelector('.sc8.cutting')
   const sc19_cut = document.querySelector('.sc19.cutting')
   const sc20_cut = document.querySelector('.sc20.cutting')
+  
+  let type, width, height, color, tickness, tickness_16
+  let elements,sum=0,weight=0,weight_sum=0
+  
+  /*=========예상 견적가 및 절단내역=====================*/  
+  const result_button = document.querySelector('.button112')
+  result_button.addEventListener('click',()=>{
+    
+  /*변수 설정*/
+  type = Number(document.querySelector('#type').value)
+  width = Number(document.querySelector('#width').value)
+  height = Number(document.querySelector('#height').value)
+  color = document.querySelector('#color').value
+  tickness = document.querySelector('#tickness').value
+  tickness_16 = document.querySelector('#tickness-16').value
+  const top_bar = book.glassbook[tickness][0]
+  const bottom_bar = tickness=="16mm"?tickness_16:book.glassbook[tickness][1]
+  
+  const outside_bar = book.glassbook[tickness][2]
+  const inside_bar = book.glassbook[tickness][3] 
+  const screen_frame = document.querySelector('#screen-frame')
+  const screen = document.querySelector('#screen')
+  const rain_hole = document.querySelector('#rain-hole')
   
   const frame_width = width
   const frame_height = height
@@ -137,24 +152,19 @@ button.addEventListener('click',()=>{
       screen_width=width/4+11
       break;
   }
-  
-  let elements,sum=0,weight=0,weight_sum=0
-  
-  /*=========예상 견적가=====================*/
-  
+
   /*예상견적가 초기화*/
     const results = document.querySelectorAll('.result');
+    
     results.forEach(result =>{
       if(result.className!="title result"){
-        elements = result.querySelectorAll('span')
-        elements[2].innerHTML=elements[3].innerHTML=elements[4].innerHTML=""  
+        elements = result.querySelectorAll('span');     elements[2].innerHTML=elements[3].innerHTML=elements[4].innerHTML=""  
       }
     })
   
   /*frame 예상견적가*/
   elements = frame_out.querySelectorAll('span')
-  elements[1].innerHTML = frame.value;
-  elements[2].innerHTML = book.diesbook[frame.value]
+  elements[2].innerHTML = book.diesbook[elements[1].textContent]
   elements[3].innerHTML = (frame_width+frame_height)*2
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   price = Math.ceil(weight*color_price)
@@ -162,10 +172,10 @@ button.addEventListener('click',()=>{
   sum=sum+price
   weight_sum = weight_sum+weight
   
-  /*창문(top) 예상견적가*/
+  /*창문(top_bar) 예상견적가*/
   elements = top_out.querySelectorAll('span')
-  elements[1].innerHTML = top.value;
-  elements[2].innerHTML = book.diesbook[top.value]
+  elements[1].innerHTML = top_bar;
+  elements[2].innerHTML = book.diesbook[top_bar]
   elements[3].innerHTML = window_width
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   price = Math.ceil(weight*color_price)
@@ -173,10 +183,10 @@ button.addEventListener('click',()=>{
   sum=sum+price
   weight_sum = weight_sum+weight
   
-  /*창문(bottom) 예상견적가*/
+  /*창문(bottom_bar) 예상견적가*/
   elements = bottom_out.querySelectorAll('span')
-  elements[1].innerHTML = bottom.value;
-  elements[2].innerHTML = book.diesbook[bottom.value]
+  elements[1].innerHTML = bottom_bar;
+  elements[2].innerHTML = book.diesbook[bottom_bar]
   elements[3].innerHTML = window_width
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   price = Math.ceil(weight*color_price)
@@ -184,10 +194,10 @@ button.addEventListener('click',()=>{
   sum=sum+price
   weight_sum = weight_sum+weight
   
-  /*창문(outside) 예상견적가*/
+  /*창문(outside_bar) 예상견적가*/
   elements = outside_out.querySelectorAll('span')
-  elements[1].innerHTML = outside.value;
-  elements[2].innerHTML = book.diesbook[outside.value]
+  elements[1].innerHTML = outside_bar;
+  elements[2].innerHTML = book.diesbook[outside_bar]
   elements[3].innerHTML = window_height*outside_bar_count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   price = Math.ceil(weight*color_price)
@@ -195,10 +205,10 @@ button.addEventListener('click',()=>{
   sum=sum+price
   weight_sum = weight_sum+weight
   
-  /*창문(inside) 예상견적가*/
+  /*창문(inside_bar) 예상견적가*/
   elements = inside_out.querySelectorAll('span')
-  elements[1].innerHTML = inside.value;
-  elements[2].innerHTML = book.diesbook[inside.value]
+  elements[1].innerHTML = inside_bar;
+  elements[2].innerHTML = book.diesbook[inside_bar]
   elements[3].innerHTML = window_height*inside_bar_count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   price = Math.ceil(weight*color_price)
@@ -273,30 +283,29 @@ button.addEventListener('click',()=>{
   
   /*frame 절단내역*/
   elements = frame_cut.querySelectorAll('span')
-  elements[1].innerHTML = frame.value
   elements[2].innerHTML = frame_width + "mm X "+2
   elements[3].innerHTML = frame_height + "mm X "+2
   
-  /*창문(top) 절단내역*/
+  /*창문(top_bar) 절단내역*/
   elements = top_cut.querySelectorAll('span')
-  elements[1].innerHTML = top.value
+  elements[1].innerHTML = top_bar
   elements[2].innerHTML = side_width + "mm X "+(type==3?2:type)
   elements[3].innerHTML = type==3?center_width + "mm X "+1:""
   
-  /*창문(bottom) 절단내역*/
+  /*창문(bottom_bar) 절단내역*/
   elements = bottom_cut.querySelectorAll('span')
-  elements[1].innerHTML = bottom.value
+  elements[1].innerHTML = bottom_bar
   elements[2].innerHTML = side_width + "mm X " +(type==3?2:type)
   elements[3].innerHTML = type==3?center_width + "mm X "+1:""
   
-  /*창문(outside) 절단내역*/
+  /*창문(outside_bar) 절단내역*/
   elements = outside_cut.querySelectorAll('span')
-  elements[1].innerHTML = outside.value
+  elements[1].innerHTML = outside_bar
   elements[2].innerHTML = window_height + "mm X "+outside_bar_count
   
-  /*창문(inside) 절단내역*/
+  /*창문(inside_bar) 절단내역*/
   elements = inside_cut.querySelectorAll('span')
-  elements[1].innerHTML = inside.value
+  elements[1].innerHTML = inside_bar
   elements[2].innerHTML = window_height + "mm X "+inside_bar_count
   
   /*창문부속 절단내역*/
@@ -323,11 +332,47 @@ button.addEventListener('click',()=>{
       break;
     case "미설치":
       break;
-
   }
   
+    
+    /*다운로드 버튼 생성*/
+const style = document.querySelector('style').innerHTML
+const result_container = document.querySelector('.result-container').innerHTML
+const cutting_container = document.querySelector('.cutting-container').innerHTML
+const new_html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>112mm slide window File</title>
+    <style>${style}</style>
+  </head>
+  <body>
+    <section class="order-container container">
+      <h1 class="section-title">주문내용</h1>
+      <ul class="order-list">
+        <li class="type">타입(type): <span>${type}짝문</span></li>
+        <li class="type">너비(wide): <span>${width}mm</span></li>
+        <li class="type">높이(height): <span>${height}mm</span></li>
+        <li class="type">색상(color): <span>${color}</span></li>
+        <li class="type">유리두께(tickness): <span>${tickness}</span></li>
+        <li class="type">망충망(screen) 설치: <span>${screen.checked?"설치":"미설치"}</span></li>
+        <li class="type">빗물 홈: <span>${rain_hole.checked?"설치":"미설치"}</span></li>
+      </ul>
+    </section>
+    <section class="result-container container">${result_container}</section>
+    <section class="cutting-container container">${cutting_container}</section>
+  </body>
+  </html>
+  `
+const blob = new Blob([new_html], { type: 'text/html' })
+
+// Blob 객체를 가리키는 URL 생성
+const url = URL.createObjectURL(blob)
+ 
+// 다운로드 링크 생성
+const downloadLink = document.querySelector('.download')
+downloadLink.href = url;
+downloadLink.download = 'new-file.html';
   
-  
-  
-});
+})
 
