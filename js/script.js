@@ -89,13 +89,14 @@ const book = {
   const sc20_cut = document.querySelector('.sc20.cutting')
   
   let type, width, height, color, tickness, tickness_16
-  let elements,sum=0,weight=0,weight_sum=0
+  
   
   /*=========예상 견적가 및 절단내역=====================*/  
   const result_button = document.querySelector('.button112')
   result_button.addEventListener('click',()=>{
     
   /*변수 설정*/
+  let elements,sum=0,weight=0,weight_sum=0
   type = Number(document.querySelector('#type').value)
   width = Number(document.querySelector('#width').value)
   height = Number(document.querySelector('#height').value)
