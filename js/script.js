@@ -343,6 +343,7 @@ const new_html = `
   <!DOCTYPE html>
   <html>
   <head>
+    <meta charset="UTF-8">
     <title>112mm slide window File</title>
     <style>${style}</style>
   </head>
