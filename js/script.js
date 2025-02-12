@@ -93,7 +93,7 @@ const book = {
   const sc19_cut = document.querySelector('.sc19.cutting')
   const sc20_cut = document.querySelector('.sc20.cutting')
   
-  let type, width, height, color, tickness, tickness_16
+  let type, width, height, color, tickness, tickness_16,screen_frame,count,screen,rain_hole
   
   
   /*=========예상 견적가 및 절단내역=====================*/  
@@ -108,19 +108,21 @@ const book = {
   color = document.querySelector('#color').value
   tickness = document.querySelector('#tickness').value
   tickness_16 = document.querySelector('#tickness-16').value
+  screen_frame = document.querySelector('#screen-frame')
+  count=Number(document.querySelector('#count').value)
+  screen = document.querySelector('#screen')
+  rain_hole = document.querySelector('#rain-hole')
+    
   const top_bar = book.glassbook[tickness][0]
   const bottom_bar = tickness=="16mm"?tickness_16:book.glassbook[tickness][1]
-  
   const outside_bar = book.glassbook[tickness][2]
   const inside_bar = book.glassbook[tickness][3] 
-  const screen_frame = document.querySelector('#screen-frame')
-  const screen = document.querySelector('#screen')
-  const rain_hole = document.querySelector('#rain-hole')
   
   const frame_width = width
   const frame_height = height
   const window_height= height - book.tolerancebook.window112[3]      
   const screen_height = height - 55
+  
   let side_width,center_width,outside_bar_count,inside_bar_count
   let sindow_part_count, screen_frame_count, screen_width
   let price, color_price = Number(book.colorbook[color])
@@ -171,7 +173,7 @@ const book = {
   /*frame 자재현황*/
   elements = frame_out.querySelectorAll('span')
   elements[2].innerHTML = book.diesbook[elements[1].textContent]
-  elements[3].innerHTML = (frame_width+frame_height)*2
+  elements[3].innerHTML = (frame_width+frame_height)*2*count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
@@ -180,7 +182,7 @@ const book = {
   elements = top_out.querySelectorAll('span')
   elements[1].innerHTML = top_bar;
   elements[2].innerHTML = book.diesbook[top_bar]
-  elements[3].innerHTML = window_width
+  elements[3].innerHTML = window_width*count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
@@ -189,7 +191,7 @@ const book = {
   elements = bottom_out.querySelectorAll('span')
   elements[1].innerHTML = bottom_bar;
   elements[2].innerHTML = book.diesbook[bottom_bar]
-  elements[3].innerHTML = window_width
+  elements[3].innerHTML = window_width*count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
@@ -198,7 +200,7 @@ const book = {
   elements = outside_out.querySelectorAll('span')
   elements[1].innerHTML = outside_bar;
   elements[2].innerHTML = book.diesbook[outside_bar]
-  elements[3].innerHTML = window_height*outside_bar_count
+  elements[3].innerHTML = window_height*outside_bar_count*count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
@@ -207,7 +209,7 @@ const book = {
   elements = inside_out.querySelectorAll('span')
   elements[1].innerHTML = inside_bar;
   elements[2].innerHTML = book.diesbook[inside_bar]
-  elements[3].innerHTML = window_height*inside_bar_count
+  elements[3].innerHTML = window_height*inside_bar_count*count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
@@ -215,7 +217,7 @@ const book = {
   /*창문부속 자재현황*/
   elements = window_part_out.querySelectorAll('span')
   elements[2].innerHTML = book.diesbook[elements[1].textContent]
-  elements[3].innerHTML = window_height*window_part_count
+  elements[3].innerHTML = window_height*window_part_count*count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
   elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
@@ -224,7 +226,7 @@ const book = {
   switch(screen_frame.value){
     case "sc-8":
       elements[2].innerHTML = book.diesbook[screen_frame.value]
-      elements[3].innerHTML = (screen_width+screen_height)*(type==2?2:4)
+      elements[3].innerHTML = (screen_width+screen_height)*(type==2?2:4)*count
       weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
       elements[4].innerHTML = weight.toLocaleString("en-US")
       weight_sum = weight_sum+weight
@@ -232,7 +234,7 @@ const book = {
     case "sc-19":
       elements = sc19_out.querySelectorAll('span')
       elements[2].innerHTML = book.diesbook[screen_frame.value]
-      elements[3].innerHTML = (screen_width+screen_height)*(type==2?2:4)
+      elements[3].innerHTML = (screen_width+screen_height)*(type==2?2:4)*count
       weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
       elements[4].innerHTML = weight.toLocaleString("en-US")
       weight_sum = weight_sum+weight
@@ -240,14 +242,14 @@ const book = {
     case "sc-20":
       elements = sc19_out.querySelectorAll('span')
       elements[2].innerHTML = book.diesbook["sc-19"]
-      elements[3].innerHTML = screen_width*(type==2?2:4)
+      elements[3].innerHTML = screen_width*(type==2?2:4)*count
       weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
       elements[4].innerHTML = weight.toLocaleString("en-US")
       weight_sum = weight_sum+weight
       
       elements = sc20_out.querySelectorAll('span')
       elements[2].innerHTML = book.diesbook["sc-20"]
-      elements[3].innerHTML = screen_height*(type==2?2:4)
+      elements[3].innerHTML = screen_height*(type==2?2:4)*count
       weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
       elements[4].innerHTML = weight.toLocaleString("en-US")
       weight_sum = weight_sum+weight
@@ -270,7 +272,7 @@ const book = {
       }
     })  
   
-  /*자재견적가 sub-total 예상견적가*/
+  /*자재견적가*/
   elements = sub_total.querySelectorAll('span')
   elements[1].innerHTML = weight_sum.toLocaleString("en-US")
   elements[2].innerHTML = color_price.toLocaleString("en-US")
@@ -281,7 +283,7 @@ const book = {
   /*방충망 예상견적가*/
   elements = screen_price.querySelectorAll('span')
   if(screen_frame.value !="미설치" & screen.checked == true ){
-    price =Math.ceil(screen_width*screen_height/100) /*임시값으로 방충망에 대한 정확한 견적값 입력 필요*/
+    price =Math.ceil(screen_width*screen_height/100)*count /*임시값으로 방충망에 대한 정확한 견적값 입력 필요*/
     elements[3].innerHTML =price.toLocaleString("en-US")
     sum=sum+price
   }  
@@ -290,11 +292,11 @@ const book = {
   /*제작부속비 예상견적가*/
   elements = product_parts.querySelectorAll('span')
   switch(type){
-    case 2:price=14500
+    case 2:price=14500*count
       break;
-    case 3:price=20600
+    case 3:price=20600*count
       break;
-    case 4:price=24200
+    case 4:price=24200*count
       break;
   }                        /*임시값으로 수정 필요*/
   elements[3].innerHTML =price.toLocaleString("en-US")
@@ -327,52 +329,52 @@ const book = {
   
   /*frame 절단내역*/
   elements = frame_cut.querySelectorAll('span')
-  elements[2].innerHTML = frame_width + "mm X "+2
-  elements[3].innerHTML = frame_height + "mm X "+2
+  elements[2].innerHTML = frame_width + "mm X "+2*count
+  elements[3].innerHTML = frame_height + "mm X "+2*count
   
   /*창문(top_bar) 절단내역*/
   elements = top_cut.querySelectorAll('span')
   elements[1].innerHTML = top_bar
-  elements[2].innerHTML = side_width + "mm X "+(type==3?2:type)
-  elements[3].innerHTML = type==3?center_width + "mm X "+1:""
+  elements[2].innerHTML = side_width + "mm X "+(type==3?2:type)*count
+  elements[3].innerHTML = type==3?center_width + "mm X "+1*count:""
   
   /*창문(bottom_bar) 절단내역*/
   elements = bottom_cut.querySelectorAll('span')
   elements[1].innerHTML = bottom_bar
-  elements[2].innerHTML = side_width + "mm X " +(type==3?2:type)
-  elements[3].innerHTML = type==3?center_width + "mm X "+1:""
+  elements[2].innerHTML = side_width + "mm X " +(type==3?2:type)*count
+  elements[3].innerHTML = type==3?center_width + "mm X "+1*count:""
   
   /*창문(outside_bar) 절단내역*/
   elements = outside_cut.querySelectorAll('span')
   elements[1].innerHTML = outside_bar
-  elements[2].innerHTML = window_height + "mm X "+outside_bar_count
+  elements[2].innerHTML = window_height + "mm X "+outside_bar_count*count
   
   /*창문(inside_bar) 절단내역*/
   elements = inside_cut.querySelectorAll('span')
   elements[1].innerHTML = inside_bar
-  elements[2].innerHTML = window_height + "mm X "+inside_bar_count
+  elements[2].innerHTML = window_height + "mm X "+inside_bar_count*count
   
   /*창문부속 절단내역*/
   elements = window_part_cut.querySelectorAll('span')
-  elements[2].innerHTML = type==4?window_height + "mm X " + 1:""
+  elements[2].innerHTML = type==4?window_height + "mm X " + 1*count:""
   
   /*방충망틀 절단내역*/
   switch(screen_frame.value){
     case "sc-8":
       elements = sc8_cut.querySelectorAll('span')
-      elements[2].innerHTML = screen_width + "mm X " + (type==2?2:4)
-      elements[3].innerHTML = screen_height + "mm X " + (type==2?2:4)
+      elements[2].innerHTML = screen_width + "mm X " + (type==2?2:4)*count
+      elements[3].innerHTML = screen_height + "mm X " + (type==2?2:4)*count
       break;
     case "sc-19":
       elements = sc19_cut.querySelectorAll('span')
-      elements[2].innerHTML = screen_width + "mm X " + (type==2?2:4)
-      elements[3].innerHTML = screen_height + "mm X " + (type==2?2:4)
+      elements[2].innerHTML = screen_width + "mm X " + (type==2?2:4)*count
+      elements[3].innerHTML = screen_height + "mm X " + (type==2?2:4)*count
       break;
     case "sc-20":
       elements = sc19_cut.querySelectorAll('span')
-      elements[2].innerHTML = screen_width + "mm X " + (type==2?2:4)
+      elements[2].innerHTML = screen_width + "mm X " + (type==2?2:4)*count
       elements = sc20_cut.querySelectorAll('span')
-      elements[3].innerHTML = screen_height + "mm X " + (type==2?2:4)
+      elements[3].innerHTML = screen_height + "mm X " + (type==2?2:4)*count
       break;
     case "미설치":
       break;
