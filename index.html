@@ -39,6 +39,10 @@
       grid-template-columns: 1fr 1fr 2fr 2fr 1fr;
       border-bottom: 1px solid green;
     }
+    .price{
+      grid-template-columns: repeat(4,1fr);
+      border-bottom: 1px solid green;
+    }
     button,.download{
       padding: .5rem;
       border-radius: .5rem;
@@ -106,10 +110,10 @@
   </section>
   
   <section class="result-container container">
-    <h1 class="section-title">예상 견적가</h1>
+    <h1 class="section-title">자재소요</h1>
     <ul class="result-list">
       <li class="title result">
-        <span>구분</span><span>형번호</span><span>무게(kg/m)</span><span>길이(mm)</span><span>금액</span>
+        <span>구분</span><span>형번호</span><span>단위무게(kg/m)</span><span>길이(mm)</span><span>무게(kg)</span>
       </li>
       <li class="frame result">
         <span>창틀</span><span>ns112sl104</span><span></span><span></span><span></span>
@@ -129,24 +133,46 @@
       <li class="window-part result">
         <span>창문부속</span><span>ns112sl701-A</span><span></span><span></span><span></span>
       </li>
-      <li class="screen-frame result">
-        <span>방충망 틀</span><span></span><span></span><span></span><span></span>
+      <li class="sc8 result">
+        <span>방충망 틀</span><span>sc8</span><span></span><span></span><span></span>
       </li>
-      <li class="screen result">
-        <span>방충망</span><span>알미늄 망</span><span>-</span><span></span><span></span>
+      <li class="sc19 result">
+        <span>방충망 틀</span><span>sc19</span><span></span><span></span><span></span>
       </li>
-      <li class="sub-total result">
-        <span>자재견적가</span><span></span><span></span><span></span><span></span>
+      <li class="sc20 result">
+        <span>방충망 틀</span><span>sc20</span><span></span><span></span><span></span>
       </li>
-      <li class="production-cost result">
-        <span>제작비</span><span></span><span></span><span></span><span></span>
-      </li>
-      <li class="total result">
-        <span>제작시 견적가</span><span></span><span></span><span></span><span></span>
+      <li class="result-total result">
+        <span>총계</span><span></span><span></span><span></span><span></span>
       </li>
     </ul>
-
   </section>
+  
+  <section class="price-container container">
+    <h1 class="section-title">예상 견적가격</h1>
+    <ul class="price-list">
+      <li class="title price">
+        <span>구분</span><span>총무게(kg)</span><span>단가</span><span>금액</span>
+      </li>
+
+      <li class="sub-total price">
+        <span>창틀/창문/방충망틀(자재비)</span><span></span><span></span><span></span>
+      </li>
+      <li class="screen price">
+        <span>방충망(자재비)</span><span>알미늄 망</span><span></span><span></span>
+      </li>
+      <li class="product-parts price">
+        <span>제작부속(자재비)</span><span>롤러 등</span><span></span><span></span>
+      </li>
+      <li class="production-cost price">
+        <span>인건비(제작비)</span><span></span><span></span><span></span>
+      </li>
+      <li class="total price">
+        <span>총 제작비</span><span></span><span></span><span></span>
+      </li>
+    </ul>
+  </section>
+  
   <section class="cutting-container container">
     <h1 class="section-title">절단 상세내역</h1>
     <ul class="cutting-list">

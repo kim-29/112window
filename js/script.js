@@ -72,11 +72,16 @@ const book = {
   const outside_out = document.querySelector('.window-outside.result')
   const inside_out = document.querySelector(".window-inside.result")
   const window_part_out = document.querySelector(".window-part.result")
-  const screen_frame_out = document.querySelector('.screen-frame.result')
-  const screen_out = document.querySelector('.screen.result')
-  const sub_total = document.querySelector('.sub-total.result')
-  const production_cost = document.querySelector('.production-cost.result')
-  const total = document.querySelector('.total.result')
+  const sc8_out = document.querySelector('.sc8.result')
+  const sc19_out = document.querySelector('.sc19.result')
+  const sc20_out = document.querySelector('.sc20.result')
+  const result_out = document.querySelector('.result-total.result')
+
+  const sub_total = document.querySelector('.sub-total.price')
+  const screen_price = document.querySelector('.screen.price')
+  const product_parts = document.querySelector('.product-parts.price')
+  const production_cost = document.querySelector('.production-cost.price')
+  const total = document.querySelector('.total.price')
   
   const frame_cut = document.querySelector('.frame.cutting')
   const top_cut = document.querySelector('.window-top.cutting')
@@ -154,7 +159,7 @@ const book = {
       break;
   }
 
-  /*예상견적가 초기화*/
+  /*자재현황 초기화*/
     const results = document.querySelectorAll('.result');
     
     results.forEach(result =>{
@@ -163,111 +168,149 @@ const book = {
       }
     })
   
-  /*frame 예상견적가*/
+  /*frame 자재현황*/
   elements = frame_out.querySelectorAll('span')
   elements[2].innerHTML = book.diesbook[elements[1].textContent]
   elements[3].innerHTML = (frame_width+frame_height)*2
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
-  price = Math.ceil(weight*color_price)
-  elements[4].innerHTML = price.toLocaleString("en-US")
-  sum=sum+price
+  elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
   
-  /*창문(top_bar) 예상견적가*/
+  /*창문(top_bar) 자재현황*/
   elements = top_out.querySelectorAll('span')
   elements[1].innerHTML = top_bar;
   elements[2].innerHTML = book.diesbook[top_bar]
   elements[3].innerHTML = window_width
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
-  price = Math.ceil(weight*color_price)
-  elements[4].innerHTML = price.toLocaleString("en-US")
-  sum=sum+price
+  elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
   
-  /*창문(bottom_bar) 예상견적가*/
+  /*창문(bottom_bar) 자재현황*/
   elements = bottom_out.querySelectorAll('span')
   elements[1].innerHTML = bottom_bar;
   elements[2].innerHTML = book.diesbook[bottom_bar]
   elements[3].innerHTML = window_width
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
-  price = Math.ceil(weight*color_price)
-  elements[4].innerHTML = price.toLocaleString("en-US")
-  sum=sum+price
+  elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
   
-  /*창문(outside_bar) 예상견적가*/
+  /*창문(outside_bar) 자재현황*/
   elements = outside_out.querySelectorAll('span')
   elements[1].innerHTML = outside_bar;
   elements[2].innerHTML = book.diesbook[outside_bar]
   elements[3].innerHTML = window_height*outside_bar_count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
-  price = Math.ceil(weight*color_price)
-  elements[4].innerHTML = price.toLocaleString("en-US")
-  sum=sum+price
+  elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
   
-  /*창문(inside_bar) 예상견적가*/
+  /*창문(inside_bar) 자재현황*/
   elements = inside_out.querySelectorAll('span')
   elements[1].innerHTML = inside_bar;
   elements[2].innerHTML = book.diesbook[inside_bar]
   elements[3].innerHTML = window_height*inside_bar_count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
-  price = Math.ceil(weight*color_price)
-  elements[4].innerHTML = price.toLocaleString("en-US")
-  sum=sum+price
+  elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
   
-  /*창문부속 예상견적가*/
+  /*창문부속 자재현황*/
   elements = window_part_out.querySelectorAll('span')
   elements[2].innerHTML = book.diesbook[elements[1].textContent]
   elements[3].innerHTML = window_height*window_part_count
   weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
-  price = Math.ceil(weight*color_price)
-  elements[4].innerHTML = price.toLocaleString("en-US")
-  sum=sum+price
+  elements[4].innerHTML = weight.toLocaleString("en-US")
   weight_sum = weight_sum+weight
   
-  /*방충망 틀 예상견적가*/
-  elements = screen_frame_out.querySelectorAll('span')
-  elements[1].innerHTML = screen_frame.value;
-  if(screen_frame.value !="미설치"){
-    elements[2].innerHTML = book.diesbook[screen_frame.value]
-    elements[3].innerHTML = (screen_width+screen_height)*2*screen_frame_count
-    weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
-    price = Math.ceil(weight*color_price)
-    elements[4].innerHTML = price.toLocaleString("en-US")
-    sum=sum+price
-    weight_sum = weight_sum+weight
-  }
-  
-  /*방충망 예상견적가*/
-  elements = screen_out.querySelectorAll('span')
-  if(screen_frame.value !="미설치" & screen.checked == true ){
-    price =Math.ceil(screen_width*screen_height/100) /*임시값으로 방충망에 대한 정확한 견적값 입력 필요*/
-    elements[4].innerHTML =price.toLocaleString("en-US")
-    sum=sum+price
-  }
+  /*방충망 틀 자재현황*/
+  switch(screen_frame.value){
+    case "sc-8":
+      elements[2].innerHTML = book.diesbook[screen_frame.value]
+      elements[3].innerHTML = (screen_width+screen_height)*(type==2?2:4)
+      weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+      elements[4].innerHTML = weight.toLocaleString("en-US")
+      weight_sum = weight_sum+weight
+      break;
+    case "sc-19":
+      elements = sc19_out.querySelectorAll('span')
+      elements[2].innerHTML = book.diesbook[screen_frame.value]
+      elements[3].innerHTML = (screen_width+screen_height)*(type==2?2:4)
+      weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+      elements[4].innerHTML = weight.toLocaleString("en-US")
+      weight_sum = weight_sum+weight
+      break;
+    case "sc-20":
+      elements = sc19_out.querySelectorAll('span')
+      elements[2].innerHTML = book.diesbook["sc-19"]
+      elements[3].innerHTML = screen_width*(type==2?2:4)
+      weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+      elements[4].innerHTML = weight.toLocaleString("en-US")
+      weight_sum = weight_sum+weight
+      
+      elements = sc20_out.querySelectorAll('span')
+      elements[2].innerHTML = book.diesbook["sc-20"]
+      elements[3].innerHTML = screen_height*(type==2?2:4)
+      weight = Number(elements[2].innerHTML)*Number(elements[3].innerHTML)/1000
+      elements[4].innerHTML = weight.toLocaleString("en-US")
+      weight_sum = weight_sum+weight
+      break;
+    case "미설치":
+      break;
+  }  
+    
+  elements = result_out.querySelectorAll('span')
+  elements[4].innerHTML = weight_sum.toLocaleString("en-US")
+
+    
+  /*=========예상견적가=====================*/
+  /*초기화*/  
+  const expect_prices = document.querySelectorAll('.price');
+    expect_prices.forEach(expect_price =>{
+      if(expect_price.className!="title price"){
+        elements = expect_price.querySelectorAll('span')
+        elements[2].innerHTML=elements[3].innerHTML=""  
+      }
+    })  
   
   /*자재견적가 sub-total 예상견적가*/
   elements = sub_total.querySelectorAll('span')
-  elements[4].innerHTML =sum.toLocaleString("en-US")
-  
-  /*제작비 예상견적가*/
-  elements = production_cost.querySelectorAll('span')
+  elements[1].innerHTML = weight_sum.toLocaleString("en-US")
+  elements[2].innerHTML = color_price.toLocaleString("en-US")
+  price = Math.ceil(weight_sum*color_price)
+  elements[3].innerHTML =price.toLocaleString("en-US")
+  sum=sum+price
+    
+  /*방충망 예상견적가*/
+  elements = screen_price.querySelectorAll('span')
+  if(screen_frame.value !="미설치" & screen.checked == true ){
+    price =Math.ceil(screen_width*screen_height/100) /*임시값으로 방충망에 대한 정확한 견적값 입력 필요*/
+    elements[3].innerHTML =price.toLocaleString("en-US")
+    sum=sum+price
+  }  
+    
+    
+  /*제작부속비 예상견적가*/
+  elements = product_parts.querySelectorAll('span')
   switch(type){
-    case 2:price=Math.ceil(14500+weight_sum*25000) /*부속비용 + 인건비(무게*25000원)*/
+    case 2:price=14500
       break;
-    case 3:price=Math.ceil(20600+weight_sum*25000)
+    case 3:price=20600
       break;
-    case 4:price=Math.ceil(24200+weight_sum*25000)
+    case 4:price=24200
       break;
   }                        /*임시값으로 수정 필요*/
-  elements[4].innerHTML =price.toLocaleString("en-US")
+  elements[3].innerHTML =price.toLocaleString("en-US")
   sum=sum+price
   
-  /*제작시 견적가 예상견적가*/
+  /*제작비(인건비) 예상견적가*/
+  elements = production_cost.querySelectorAll('span')
+  elements[1].innerHTML = weight_sum.toLocaleString("en-US")
+  elements[2].innerHTML = Number(25000).toLocaleString("en-US")
+  price = Math.ceil(weight_sum*25000)
+  elements[3].innerHTML =price.toLocaleString("en-US")
+  sum=sum+price
+  
+  /*총 제작비 예상견적가*/
   elements = total.querySelectorAll('span')
-  elements[4].innerHTML =sum.toLocaleString("en-US")
+  elements[3].innerHTML = sum.toLocaleString("en-US")
 
   
   /*=========절단 상세내역=====================*/
@@ -339,6 +382,7 @@ const book = {
     /*다운로드 버튼 생성*/
 const style = document.querySelector('style').innerHTML
 const result_container = document.querySelector('.result-container').innerHTML
+const price_container = document.querySelector('.price-container').innerHTML
 const cutting_container = document.querySelector('.cutting-container').innerHTML
 const new_html = `
   <!DOCTYPE html>
@@ -362,6 +406,7 @@ const new_html = `
       </ul>
     </section>
     <section class="result-container container">${result_container}</section>
+    <section class="price-container container">${price_container}</section>
     <section class="cutting-container container">${cutting_container}</section>
   </body>
   </html>
