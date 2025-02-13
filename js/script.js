@@ -64,6 +64,36 @@ const book = {
   },
 }
 
+
+
+
+
+
+
+/*===main code : 이 코드는 메인 페이지에 들어가야 되는 코드입니다.====*/
+
+let cutting_html = document.createElement('html');
+const style = document.querySelector('style').innerHTML
+cutting_html.innerHTML = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <title>112mm slide window File</title>
+    <style>${style}</style>
+  </head>
+  <body>
+  </body>
+  </html>`
+/*===end of main code==============================*/
+
+
+
+
+
+
+
+
 /*=========변수설정=====================*/
   
   const frame_out = document.querySelector('.frame.result')
@@ -94,6 +124,7 @@ const book = {
   const sc20_cut = document.querySelector('.sc20.cutting')
   
   let type, width, height, color, tickness, tickness_16,screen_frame,count,screen,rain_hole
+  let order_container 
   
   
   /*=========예상 견적가 및 절단내역=====================*/  
@@ -379,49 +410,40 @@ const book = {
     case "미설치":
       break;
   }
-  
     
-    /*다운로드 버튼 생성*/
-const style = document.querySelector('style').innerHTML
-const result_container = document.querySelector('.result-container').innerHTML
-const price_container = document.querySelector('.price-container').innerHTML
-const cutting_container = document.querySelector('.cutting-container').innerHTML
-const new_html = `
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>112mm slide window File</title>
-    <style>${style}</style>
-  </head>
-  <body>
-    <section class="order-container container">
-      <h1 class="section-title">주문내용</h1>
-      <ul class="order-list">
-        <li class="type">타입(type): <span>${type}짝문</span></li>
-        <li class="type">너비(wide): <span>${width}mm</span></li>
-        <li class="type">높이(height): <span>${height}mm</span></li>
-        <li class="type">색상(color): <span>${color}</span></li>
-        <li class="type">유리두께(tickness): <span>${tickness}</span></li>
-        <li class="type">망충망(screen) 설치: <span>${screen.checked?"설치":"미설치"}</span></li>
-        <li class="type">빗물 홈: <span>${rain_hole.checked?"설치":"미설치"}</span></li>
-      </ul>
-    </section>
-    <section class="result-container container">${result_container}</section>
-    <section class="price-container container">${price_container}</section>
-    <section class="cutting-container container">${cutting_container}</section>
-  </body>
-  </html>
-  `
-const blob = new Blob([new_html], { type: 'text/html' })
+    /*주문내역을 장바구니에 담기 위한 코드입니다.*/
+order_container = `
+  <section class="order-container container">
+    <h1 class="section-title">주문내용</h1>
+    <ul class="order-list">
+      <li class="type">타입(type): <span>${type}짝문</span></li>
+      <li class="type">너비(wide): <span>${width}mm</span></li>
+      <li class="type">높이(height): <span>${height}mm</span></li>
+      <li class="type">색상(color): <span>${color}</span></li>
+      <li class="type">유리두께(tickness): <span>${tickness}</span></li>
+      <li class="type">망충망(screen) 설치: <span>${screen.checked?"설치":"미설치"}</span></li>
+      <li class="type">빗물 홈: <span>${rain_hole.checked?"설치":"미설치"}</span></li>
+    </ul>
+  </section>`
 
-// Blob 객체를 가리키는 URL 생성
-const url = URL.createObjectURL(blob)
+})
+
+
+
+/*==============장바구니=====================================*/
+const cart= document.querySelector('.cart');
+cart.addEventListener('click',()=>{
+  let div = document.createElement('div')
+  const cutting_container = document.querySelector('.cutting-container').outerHTML
+  div.innerHTML=order_container+cutting_container
+  cutting_html.querySelector('body').appendChild(div)
+})
  
-// 다운로드 링크 생성
-const downloadLink = document.querySelector('.download')
-downloadLink.href = url;
-downloadLink.download = 'new-file.html';
-  
+/*========cutting detail view=============================*/
+const cutting_view = document.querySelector('.cutting_view')
+cutting_view.addEventListener('click',()=>{
+  let blob = new Blob([cutting_html.outerHTML],{type:'text/html'})
+  let url = URL.createObjectURL(blob);
+  let newWindow = window.open(url)
 })
 

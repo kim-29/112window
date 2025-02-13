@@ -43,7 +43,7 @@
       grid-template-columns: repeat(4,1fr);
       border-bottom: 1px solid green;
     }
-    button,.download{
+    button{
       padding: .5rem;
       border-radius: .5rem;
       border: none;
@@ -51,8 +51,6 @@
       color: white;
       margin-top: 1rem;
       cursor: pointer;
-      text-decoration: none;
-      display: block;
       text-align: center;
     }
     input[type="checkbox"]{
@@ -211,7 +209,8 @@
     
   </section>
   <footer class="footer container">
-    <a href="" class="download">견적서 다운로드</a>
+    <button class="cart">절단내역 장바구니</button>
+    <button class="cutting_view">절단내역 장바구니 보기</button>
   </footer>
   <script src="js/script.js"></script>
 </body>
