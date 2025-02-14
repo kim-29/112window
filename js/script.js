@@ -127,10 +127,44 @@ cutting_html.innerHTML = `
   let order_container 
   
   
+  
+  /*=========초기화=====================*/  
+  
+  const initial = ()=>{
+    const results = document.querySelectorAll('.result');
+  results.forEach(result =>{
+    if(result.className!="title result"){
+      elements = result.querySelectorAll('span');     elements[2].innerHTML=elements[3].innerHTML=elements[4].innerHTML=""  
+    }
+  })
+
+  const expect_prices = document.querySelectorAll('.price');
+    expect_prices.forEach(expect_price =>{
+      if(expect_price.className!="title price"){
+        elements = expect_price.querySelectorAll('span')
+        elements[2].innerHTML=elements[3].innerHTML=""  
+      }
+    })  
+
+  const cuttings = document.querySelectorAll('.cutting');
+    cuttings.forEach(cutting =>{
+      if(cutting.className!="title cutting"){
+        elements = cutting.querySelectorAll('span')
+        elements[2].innerHTML=elements[3].innerHTML=""  
+      }
+    })
+  }
+  
+  
+  
+  
+  
   /*=========예상 견적가 및 절단내역=====================*/  
   const result_button = document.querySelector('.button112')
   result_button.addEventListener('click',()=>{
-    
+  
+  initial() /*초기화*/
+  
   /*변수 설정*/
   let elements,sum=0,weight=0,weight_sum=0
   type = Number(document.querySelector('#type').value)
@@ -143,6 +177,7 @@ cutting_html.innerHTML = `
   count=Number(document.querySelector('#count').value)
   screen = document.querySelector('#screen')
   rain_hole = document.querySelector('#rain-hole')
+  work = document.querySelector('#work')
     
   const top_bar = book.glassbook[tickness][0]
   const bottom_bar = tickness=="16mm"?tickness_16:book.glassbook[tickness][1]
@@ -192,14 +227,7 @@ cutting_html.innerHTML = `
       break;
   }
 
-  /*자재현황 초기화*/
-    const results = document.querySelectorAll('.result');
-    
-    results.forEach(result =>{
-      if(result.className!="title result"){
-        elements = result.querySelectorAll('span');     elements[2].innerHTML=elements[3].innerHTML=elements[4].innerHTML=""  
-      }
-    })
+
   
   /*frame 자재현황*/
   elements = frame_out.querySelectorAll('span')
@@ -294,14 +322,7 @@ cutting_html.innerHTML = `
 
     
   /*=========예상견적가=====================*/
-  /*초기화*/  
-  const expect_prices = document.querySelectorAll('.price');
-    expect_prices.forEach(expect_price =>{
-      if(expect_price.className!="title price"){
-        elements = expect_price.querySelectorAll('span')
-        elements[2].innerHTML=elements[3].innerHTML=""  
-      }
-    })  
+
   
   /*자재견적가*/
   elements = sub_total.querySelectorAll('span')
@@ -348,14 +369,7 @@ cutting_html.innerHTML = `
   
   /*=========절단 상세내역=====================*/
   
-  /*초기화*/
-  const cuttings = document.querySelectorAll('.cutting');
-    cuttings.forEach(cutting =>{
-      if(cutting.className!="title cutting"){
-        elements = cutting.querySelectorAll('span')
-        elements[2].innerHTML=elements[3].innerHTML=""  
-      }
-    })
+
   
   
   /*frame 절단내역*/
@@ -416,13 +430,14 @@ order_container = `
   <section class="order-container container">
     <h1 class="section-title">주문내용</h1>
     <ul class="order-list">
+      <li class="work">작업구분: <span>${work.checked?"제작작업":"절단작업"}</span></li>
       <li class="type">타입(type): <span>${type}짝문</span></li>
-      <li class="type">너비(wide): <span>${width}mm</span></li>
-      <li class="type">높이(height): <span>${height}mm</span></li>
-      <li class="type">색상(color): <span>${color}</span></li>
-      <li class="type">유리두께(tickness): <span>${tickness}</span></li>
-      <li class="type">망충망(screen) 설치: <span>${screen.checked?"설치":"미설치"}</span></li>
-      <li class="type">빗물 홈: <span>${rain_hole.checked?"설치":"미설치"}</span></li>
+      <li class="wide">너비(wide): <span>${width}mm</span></li>
+      <li class="height">높이(height): <span>${height}mm</span></li>
+      <li class="color">색상(color): <span>${color}</span></li>
+      <li class="tickness">유리두께(tickness): <span>${tickness}</span></li>
+      <li class="screen">망충망(screen) 설치: <span>${screen.checked?"설치":"미설치"}</span></li>
+      <li class="rain-hole">빗물 홈: <span>${rain_hole.checked?"설치":"미설치"}</span></li>
     </ul>
   </section>`
 
@@ -435,8 +450,10 @@ const cart= document.querySelector('.cart');
 cart.addEventListener('click',()=>{
   let div = document.createElement('div')
   const cutting_container = document.querySelector('.cutting-container').outerHTML
-  div.innerHTML=order_container+cutting_container
+  const button_tag = `<button class="delete-button">삭제하기</button>`
+  div.innerHTML=order_container+cutting_container+button_tag
   cutting_html.querySelector('body').appendChild(div)
+  initial()
 })
  
 /*========cutting detail view=============================*/
@@ -445,5 +462,6 @@ cutting_view.addEventListener('click',()=>{
   let blob = new Blob([cutting_html.outerHTML],{type:'text/html'})
   let url = URL.createObjectURL(blob);
   let newWindow = window.open(url)
+  console.log(newWindow)
 })
 

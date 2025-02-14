@@ -49,7 +49,7 @@
       border: none;
       background-color: dodgerblue;
       color: white;
-      margin-top: 1rem;
+      margin: 1rem .5rem;
       cursor: pointer;
       text-align: center;
     }
@@ -103,9 +103,13 @@
       </label>
       <label for="screen">방충망(screen) 설치: <input type="checkbox" id="screen"></label>
       <label for="rain-hole">빗물 홈: <input type="checkbox" id="rain-hole"></label>
-      <label for="count">제작수량(count): <input id="count" type="number" value="1"></label>
+      <label for="count">작업수량(count): <input id="count" type="number" value="1"></label>
+      <label for="work">제작여부: <input type="checkbox" id="work"></label>
     </form>  
     <button class="button112">견적산출</button>
+    <button class="cart">작업내역 장바구니 담기</button>
+    <button class="cutting_view">작업내역 장바구니 보기</button>
+    <button class="send">보내기</button>
   </section>
   
   <section class="result-container container">
@@ -173,7 +177,7 @@
   </section>
   
   <section class="cutting-container container">
-    <h1 class="section-title">절단 상세내역</h1>
+    <h1 class="section-title">절단 내역</h1>
     <ul class="cutting-list">
       <li class="title cutting">
         <span>구분</span><span>형번호</span><span>창틀(너비)<br>/side창문</span><span>창틀(높이)<br>/center창문</span><span>확인</span>
@@ -208,10 +212,7 @@
     </ul>
     
   </section>
-  <footer class="footer container">
-    <button class="cart">절단내역 장바구니</button>
-    <button class="cutting_view">절단내역 장바구니 보기</button>
-  </footer>
+
   <script src="js/script.js"></script>
 </body>
 </html>
