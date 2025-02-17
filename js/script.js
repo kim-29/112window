@@ -443,19 +443,7 @@ order_container = `
 
 })
 
-
-
-/*==============장바구니=====================================*/
-const cart= document.querySelector('.cart');
-cart.addEventListener('click',()=>{
-  let div = document.createElement('div')
-  const cutting_container = document.querySelector('.cutting-container').outerHTML
-  const button_tag = `<button class="delete-button">삭제하기</button>`
-  div.innerHTML=order_container+cutting_container+button_tag
-  cutting_html.querySelector('body').appendChild(div)
-  initial()
-
-  async function getNotionPage(databaseId, token) {
+async function getNotionPage(databaseId, token) {
     const url = `https://api.notion.com/v1/databases/${databaseId}/query`;
     const headers = {
         "Authorization": `Bearer ${token}`,
@@ -479,6 +467,18 @@ cart.addEventListener('click',()=>{
         console.error(`Error: ${error.message}`);
     }
 }
+
+/*==============장바구니=====================================*/
+const cart= document.querySelector('.cart');
+cart.addEventListener('click',()=>{
+  let div = document.createElement('div')
+  const cutting_container = document.querySelector('.cutting-container').outerHTML
+  const button_tag = `<button class="delete-button">삭제하기</button>`
+  div.innerHTML=order_container+cutting_container+button_tag
+  cutting_html.querySelector('body').appendChild(div)
+  initial()
+
+  
 
 // 데이터베이스 ID와 API 토큰을 입력하세요.
 const databaseId = "19a4cbf7970a80b1ae03dd890ea7e84d";
