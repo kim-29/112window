@@ -483,6 +483,7 @@ cart.addEventListener('click',()=>{
 // 데이터베이스 ID와 API 토큰을 입력하세요.
 const databaseId = "19a4cbf7970a80b1ae03dd890ea7e84d";
 const token = "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";
+getNotionPage(databaseId, token);
 })
  
 /*========cutting detail view=============================*/
