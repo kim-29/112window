@@ -454,6 +454,35 @@ cart.addEventListener('click',()=>{
   div.innerHTML=order_container+cutting_container+button_tag
   cutting_html.querySelector('body').appendChild(div)
   initial()
+
+  async function getNotionPage(databaseId, token) {
+    const url = `https://api.notion.com/v1/databases/${databaseId}/query`;
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Notion-Version": "2021-08-16"
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+        } else {
+            console.log(`Failed to retrieve data: ${response.status}`);
+        }
+    } catch (error) {
+        console.error(`Error: ${error.message}`);
+    }
+}
+
+// 데이터베이스 ID와 API 토큰을 입력하세요.
+const databaseId = "19a4cbf7970a80b1ae03dd890ea7e84d";
+const token = "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";
 })
  
 /*========cutting detail view=============================*/
