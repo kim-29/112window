@@ -450,7 +450,7 @@ async function getNotionPage(databaseId, token) {
         "Content-Type": "application/json",
         "Notion-Version": "2021-08-16"
     };
-
+    console.log("hello world")
     try {
         const response = await fetch(url, {
             method: 'POST',
