@@ -56,6 +56,30 @@
     input[type="checkbox"]{
       cursor: pointer;
     }
+    
+    
+    /*=========미디어 쿼리 start=============*/
+    /* PC */
+    @media (min-width: 1024px) {
+      body {
+        font-size: 18px; /* PC에서의 폰트 크기 */
+      }
+    }
+
+    /* 태블릿 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      body {
+        font-size: 16px; /* 태블릿에서의 폰트 크기 */
+      }
+    }
+
+    /* 휴대폰 */
+    @media (max-width: 767px) {
+      body {
+        font-size: 14px; /* 휴대폰에서의 폰트 크기 */
+      }
+      
+      /*=========미디어 쿼리 end =============*/
   </style>
 </head>
 <body>

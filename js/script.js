@@ -124,7 +124,8 @@ cutting_html.innerHTML = `
   const sc20_cut = document.querySelector('.sc20.cutting')
   
   let type, width, height, color, tickness, tickness_16,screen_frame,count,screen,rain_hole
-  let order_container 
+  let order_container
+  let part_price=0;
   
   
   
@@ -178,7 +179,7 @@ cutting_html.innerHTML = `
   screen = document.querySelector('#screen')
   rain_hole = document.querySelector('#rain-hole')
   work = document.querySelector('#work')
-    
+  
   const top_bar = book.glassbook[tickness][0]
   const bottom_bar = tickness=="16mm"?tickness_16:book.glassbook[tickness][1]
   const outside_bar = book.glassbook[tickness][2]
@@ -340,15 +341,17 @@ cutting_html.innerHTML = `
     sum=sum+price
   }  
     
-    
+
+
+  
   /*제작부속비 예상견적가*/
   elements = product_parts.querySelectorAll('span')
   switch(type){
-    case 2:price=14500*count
+    case 2:price=14500*count;part_price=price
       break;
-    case 3:price=20600*count
+    case 3:price=20600*count;part_price=price
       break;
-    case 4:price=24200*count
+    case 4:price=24200*count;part_price=price
       break;
   }                        /*임시값으로 수정 필요*/
   elements[3].innerHTML =price.toLocaleString("en-US")
@@ -444,6 +447,7 @@ order_container = `
 })
 
 
+
 /*==============장바구니=====================================*/
 const cart= document.querySelector('.cart');
 cart.addEventListener('click',()=>{
@@ -457,10 +461,60 @@ cart.addEventListener('click',()=>{
  
 /*========cutting detail view=============================*/
 const cutting_view = document.querySelector('.cutting_view')
+
 cutting_view.addEventListener('click',()=>{
   let blob = new Blob([cutting_html.outerHTML],{type:'text/html'})
   let url = URL.createObjectURL(blob);
   let newWindow = window.open(url)
   console.log(newWindow)
 })
+
+
+
+/*====== send ==============================*/
+
+const send = document.querySelector('.send');
+send.addEventListener('click', async() => {
+  const client_name = prompt('거래처명을 입력하세요:');
+  const now = new Date();
+  const worklist_url_key = now.toISOString()
+  const blob = new Blob([cutting_html.outerHTML], { type: 'text/html' });
+  const res = await fetch("https://shrill-hill-66e0.nameofwind.workers.dev",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+    },
+    body:JSON.stringify({
+      client:client_name,
+      order:work.checked?'제작':'절단',
+      color:color,
+      part_price:work.checked?part_price:0,
+      worklist: worklist_url_key,
+      content: await blobToBase64(blob)
+    })
+  })
+  if(res.ok){
+    const data = await res.json();
+    console.log('post ok',data);
+  }else{
+    const errorText = await res.text();
+    console.log('post error',res.statusText, errorText)
+  }
+});
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });    
+}
+
+/*===== end of send =====*/
+
+
+
+
+
 
